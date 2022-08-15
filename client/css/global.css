@@ -55,8 +55,10 @@ body {
 	flex-direction: column;
 }
 
-.register-input-group > *,
-.sign-in-input-group > * {
+.register-input-group > a,
+.sign-in-input-group > a,
+.register-input-group > h1,
+.sign-in-input-group > h1 {
 	margin-top: 0.5rem;
 }
 
@@ -100,11 +102,23 @@ body {
 
 /* API Message */
 #api-message {
-    display: none;
-    background-color: rgb(255 65 54 / 80%);
-    width: fit-content;
-    padding: 0.5rem 1rem;
-    margin: 1rem auto;
-    border-radius: 0.5rem;
-    font-size: 1rem;
+	display: none;
+	background-color: rgb(255 65 54 / 80%);
+	width: fit-content;
+	padding: 0.5rem 1rem;
+	margin: 1rem auto;
+	border-radius: 0.5rem;
+	font-size: 1rem;
+}
+
+#playground {
+	position: absolute;
+}
+
+/* login player */
+.player {
+	width: 25px;
+    height: 25px;
+    background-color: white;
+    position: relative;
 }
