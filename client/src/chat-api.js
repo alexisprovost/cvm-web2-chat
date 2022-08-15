@@ -44,7 +44,13 @@ export const signin = formNode => {
             window.location.href = "chat.html?k=" + localStorage["chat_key"] + "&u=" + localStorage["username"];
         }
         else {
-            document.querySelector("#api-message").innerText = data;
+            let msgBox = document.querySelector("#api-message");
+            msgBox.style.display = "block";
+            if(data == "INVALID_USERNAME_PASSWORD"){
+                msgBox.innerText = "Le mot de passe ou le nom d'usager est invalide";
+            } else {
+                msgBox.innerText = data;
+            }
         }
     });
 
