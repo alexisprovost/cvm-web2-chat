@@ -62,7 +62,7 @@ body {
 
 .register-input-group > form > *,
 .sign-in-input-group > form > * {
-	margin-top: 0.5rem;
+	margin-top: 1rem;
 }
 
 .register-input-group > form > input,
