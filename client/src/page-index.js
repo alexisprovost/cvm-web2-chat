@@ -18,14 +18,14 @@ window.addEventListener("load", () => {
 
 	window.addEventListener(
 		"keydown",
-		(event) => {
+		event => {
 			keys[event.keyCode] = true;
 		},
 		false
 	);
 	window.addEventListener(
 		"keyup",
-		(event) => {
+		event => {
 			keys[event.keyCode] = false;
 		},
 		false
@@ -35,9 +35,22 @@ window.addEventListener("load", () => {
 });
 
 const tick = function () {
-	players.forEach(player => {
-		player.tick(keys);
-	});
+	for (let i = 0; i < players.length; i++) {
+		const element = players[i];
+
+		let alive = element.tick(keys);
+
+		if (!alive) {
+			players.splice(i, 1);
+			i--;
+
+			setTimeout(() => {
+				const player = new Player(playground);
+
+				players.push(player);
+			}, 1000);
+		}
+	}
 
 	window.requestAnimationFrame(tick);
 };

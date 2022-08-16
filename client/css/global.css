@@ -19,6 +19,7 @@ body {
 	background: url(../img/bg.png);
 	background-size: auto 100%;
 	background-position: center;
+	overflow: hidden;
 }
 
 .register-container,
@@ -120,5 +121,5 @@ body {
 	width: 25px;
     height: 25px;
     background-color: white;
-    position: relative;
+    position: absolute;
 }
