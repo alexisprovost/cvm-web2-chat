@@ -9,6 +9,8 @@ class BackgroundLayer {
 			this.node.classList.add("fadeIn");
 		}
 
+        //
+
 		this.x = 0;
 		this.y = 0;
 		this.speed = speed;
@@ -42,7 +44,7 @@ class BackgroundLayer {
 			}
 		}
 
-		this.x -= this.speed;
+		this.x += this.speed;
 
 		this.node.style.backgroundPositionX = this.x + "px";
 

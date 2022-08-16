@@ -4,13 +4,13 @@ import BackgroundLayer from "./sprites/BackgroundLayer";
 let players, bgLayers, keys;
 
 const setupBackground = () => {
-	bgLayers.push(new BackgroundLayer(document.body,"img/01/sky.png", 0.25));
-	bgLayers.push(new BackgroundLayer(document.body,"img/01/clouds_1.png", -0.25, true));
-	bgLayers.push(new BackgroundLayer(document.body,"img/01/clouds_2.png", -0.5, true));
+	bgLayers.push(new BackgroundLayer(document.body,"img/01/sky.png", 0));
+	bgLayers.push(new BackgroundLayer(document.body,"img/01/clouds_1.png", 0.25, true));
+	bgLayers.push(new BackgroundLayer(document.body,"img/01/clouds_2.png", 0.5, true));
 	bgLayers.push(new BackgroundLayer(document.body,"img/01/rocks_1.png", 0));
 	bgLayers.push(new BackgroundLayer(document.body,"img/01/rocks_2.png", 0));
-	bgLayers.push(new BackgroundLayer(document.body,"img/01/clouds_3.png", -0.75, true));
-	bgLayers.push(new BackgroundLayer(document.body,"img/01/clouds_4.png", -1, true));
+	bgLayers.push(new BackgroundLayer(document.body,"img/01/clouds_3.png", 0.75, true));
+	bgLayers.push(new BackgroundLayer(document.body,"img/01/clouds_4.png", 1, true));
 }
 
 window.addEventListener("load", () => {
