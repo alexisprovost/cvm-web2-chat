@@ -19,7 +19,28 @@ class Player {
 		parent.append(this.node);
 	}
 
+	jumpAnimation() {
+		this.step = 10;
+		this.jump = setInterval(() => {
+			this.y -= this.step;
+			this.step -= 1;
+			if (this.step < -10) {
+				clearInterval(this.jump);
+			}
+		}
+		, 20);
+	}
+
+
 	tick(keys) {
+		if (this.y > -57 && this.x > -30-25 && this.x < 430) {
+			this.onGround = true;
+			this.gravity = 0;
+			this.y = -57;
+		} else {
+			this.onGround = false;
+		}
+
 		//Woosh gravity
 		if (keys[37] || keys[65]) {
 			console.log("left");
@@ -27,7 +48,9 @@ class Player {
 		}
 		if (keys[38] || keys[87]) {
 			console.log("jump");
-			this.y -= this.speed;
+			if (this.onGround) {
+				this.jumpAnimation();			
+			}
 		}
 		if (keys[39] || keys[68]) {
 			console.log("right");
@@ -35,11 +58,15 @@ class Player {
 		}
 		if (keys[40] || keys[83]) {
 			console.log("down");
-			this.y += this.speed;
+			if (!this.onGround) {
+				this.y += this.speed;
+			}
 		}
 
-		this.gravity -= this.velocity;
-		this.y += this.gravity;
+		if (!this.onGround) {
+			this.gravity -= this.velocity;
+			this.y += this.gravity;
+		}
 
 		// Kill player if they fall off the screen
 		if (this.y >= document.body.scrollHeight) {
