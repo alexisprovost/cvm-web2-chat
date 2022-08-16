@@ -9,8 +9,6 @@ class BackgroundLayer {
 			this.node.classList.add("fadeIn");
 		}
 
-        //
-
 		this.x = 0;
 		this.y = 0;
 		this.speed = speed;
@@ -19,6 +17,7 @@ class BackgroundLayer {
 
 		this.node.style.backgroundImage = "url(" + img + ")";
 
+		// under or on top of montains
 		parent.append(this.node);
 	}
 
