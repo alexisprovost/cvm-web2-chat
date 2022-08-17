@@ -1,31 +1,32 @@
 <template>
 	<div>
-		<li v-for="(item, index) in this.connectedUsers" :key="index">
-			{{ item }}
-		</li>
+		<div class="connected-users-holder">
+			<h3>Utilisateurs connectés</h3>
+			<li v-for="(item, index) in this.connectedUsers" :key="index">
+				{{ item }}
+			</li>
+		</div>
 		<div class="input-holder">
 			<div>
 				<textarea @keyup="handleSendMessage" placeholder="Chat" cols="30" rows="10"></textarea>
 			</div>
-
-			<a href="javascript:void(0)" @click="logout" id="sign-out-btn">Déconnexion</a>
+			<div class="link-holder">
+				<a href="javascript:void(0)" @click="logout" id="sign-out-btn">Déconnexion</a>
+				<a href="https://apps-de-cours.com/web-chat/server/watch-eye.php" target="_blank">Watch-Eye</a>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import BackgroundLayer from "./sprites/BackgroundLayer";
 import { registerCallbacks, sendMessage, signout, chatMessageLoop } from "./chat-api";
 
 export default {
 	name: "App",
-	components: {
-		BackgroundLayer,
-	},
+	components: {},
 	data() {
 		return {
-			bgLayers: [],
-			connectedUsers: [],
+			connectedUsers: ["Chargement..."],
 		};
 	},
 	methods: {
@@ -33,11 +34,14 @@ export default {
 			sendMessage(evt, evt.target);
 		},
 		newMessage: function (fromUser, message, isPrivate) {
-			console.log(fromUser, message, isPrivate);
+			if (isPrivate) {
+				console.log("Private message from " + fromUser + ": " + message);
+			} else {
+				console.log("Message from " + fromUser + ": " + message);
+			}
 		},
 		memberListUpdate: function (members) {
 			this.connectedUsers = members;
-			console.log(this.connectedUsers);
 		},
 		logout: function () {
 			signout();
@@ -46,10 +50,6 @@ export default {
 	mounted() {
 		registerCallbacks(this.newMessage, this.memberListUpdate);
 		chatMessageLoop();
-
-		this.bgLayers.push(new BackgroundLayer(document.body, "img/02/sky.png", 0));
-		this.bgLayers.push(new BackgroundLayer(document.body, "img/02/rocks.png", 0));
-		this.bgLayers.push(new BackgroundLayer(document.body, "img/02/ground.png", 0));
 	},
 };
 </script>
@@ -69,7 +69,7 @@ export default {
 }
 
 .input-holder > div {
-	width: 75%;
+	width: calc(100% - 10rem);
 	display: inline-flex;
 }
 
@@ -88,7 +88,27 @@ export default {
 	outline: none;
 }
 
-.input-holder a {
-	widows: 25%;
+.input-holder .link-holder {
+	width: 8rem;
+	display: inline-flex;
+	flex-direction: column;
+}
+
+.input-holder .link-holder a {
+	width: 100%;
+}
+
+.connected-users-holder {
+	list-style: none;
+	margin: 1rem;
+	padding: 1rem;
+	border-radius: 1rem;
+	width: fit-content;
+	background-color: rgb(255 255 255 / 60%);
+}
+
+.connected-users-holder > * {
+	margin: 1rem;
+	font-weight: 800;
 }
 </style>
