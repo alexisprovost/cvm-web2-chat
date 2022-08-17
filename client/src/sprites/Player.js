@@ -1,13 +1,16 @@
 import TiledImage from "@ftheriault/animatedsprite";
+import Bullet from "./Bullet";
 
 class Player {
 	constructor(parent, type) {
 		this.parent = parent;
 		this.node = document.createElement("div");
 
+		this.bullets = [];
+
 		//this.node.className = "player";
 		this.type = type;
-		this.height = this.node.offsetHeight;
+		this.height = 70;
 		this.x = 0;
 		this.y = -150;
 		this.speed = 10;
@@ -15,6 +18,9 @@ class Player {
 		this.velocity = -0.25;
 		this.alive = true;
 		this.onGround = false;
+		this.facingRight = true;
+
+		this.coolDown = false;
 
 		this.node.addEventListener("click", function () {
 			this.style.backgroundColor =
@@ -41,14 +47,31 @@ class Player {
 		}, 20);
 	}
 
+	say(message) {
+		const bubble = document.createElement("div");
+		bubble.className = "bubble";
+		bubble.innerHTML = message;
+		this.node.append(bubble);
+		setTimeout(() => {
+			bubble.remove();
+		}, 2000);
+	}
+
+	shoot() {
+		let bullet;
+		if (this.facingRight) {
+			bullet = new Bullet(this.parent, this.x, this.y, 1);
+		} else {
+			bullet = new Bullet(this.parent, this.x, this.y, -1);
+		}
+		this.bullets.push(bullet);
+	}
+
 	tick(keys) {
-
-		console.log(this.height);
-
-		if (this.y > -57 && this.x > -30 - 25 && this.x < 430) {
+		if (this.y > -this.height && this.x > -30 - 25 && this.x < 430) {
 			this.onGround = true;
 			this.gravity = 0;
-			this.y = -57;
+			this.y = -this.height;
 		} else {
 			this.onGround = false;
 		}
@@ -56,6 +79,8 @@ class Player {
 		//Woosh gravity
 		if (keys[37] || keys[65]) {
 			//console.log("left");
+			this.facingRight = false;
+			this.node.style.transform = "scaleX(-1)";
 			this.x -= this.speed;
 		}
 		if (keys[38] || keys[87]) {
@@ -66,6 +91,8 @@ class Player {
 		}
 		if (keys[39] || keys[68]) {
 			//console.log("right");
+			this.facingRight = true;
+			this.node.style.transform = "scaleX(1)";
 			this.x += this.speed;
 		}
 		if (keys[40] || keys[83]) {
@@ -74,6 +101,21 @@ class Player {
 				this.y += this.speed;
 			}
 		}
+		if (keys[32]) {
+			if (this.coolDown == false) {
+				this.coolDown = true;
+				this.shoot();
+				setTimeout(() => {
+					this.coolDown = false;
+				}, 500);
+			}
+		}
+
+		this.bullets.forEach(bullet => {
+			if (!bullet.tick()) {
+				this.bullets.splice(this.bullets.indexOf(bullet), 1);
+			}
+		});
 
 		if (!this.onGround) {
 			this.gravity -= this.velocity;
