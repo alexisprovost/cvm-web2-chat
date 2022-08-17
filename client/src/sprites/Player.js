@@ -8,6 +8,8 @@ class Player {
 
 		this.bullets = [];
 
+		
+
 		//this.node.className = "player";
 		this.type = type;
 		this.height = 70;
@@ -22,10 +24,9 @@ class Player {
 
 		this.coolDown = false;
 
-		this.node.addEventListener("click", function () {
-			this.style.backgroundColor =
-				"rgb(" + Math.random() * 255 + ", " + Math.random() * 255 + ", " + Math.random() * 255 + ")";
-		});
+		this.easterEgg = 1;
+
+		this.node.addEventListener("click", this.clicked.bind(this));
 
 		parent.append(this.node);
 
@@ -34,6 +35,13 @@ class Player {
 		}
 
 		this.tiledImage.changeMinMaxInterval(0, 8);
+	}
+
+	clicked() {
+		this.easterEgg++;
+		if (this.easterEgg === 10) {
+			this.say('I\'m a robot!');
+		}
 	}
 
 	jumpAnimation() {
@@ -51,10 +59,11 @@ class Player {
 		const bubble = document.createElement("div");
 		bubble.className = "bubble";
 		bubble.innerHTML = message;
+		bubble.style = "position: relative;bottom: 120px;left: 60px;background-color: white;padding: 1rem;width: 190px;border-radius: 1rem;";
 		this.node.append(bubble);
 		setTimeout(() => {
 			bubble.remove();
-		}, 2000);
+		}, 200000);
 	}
 
 	shoot() {
@@ -125,6 +134,10 @@ class Player {
 		// Kill player if they fall off the screen
 		if (this.y >= document.body.scrollHeight) {
 			this.alive = false;
+			this.bullets.forEach(bullet => {
+				bullet.theDumpsterTruckIsHere();
+				this.bullets = [];
+			});
 			this.node.remove();
 		}
 

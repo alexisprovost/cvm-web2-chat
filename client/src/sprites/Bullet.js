@@ -12,6 +12,10 @@ class Bullet {
         parent.append(this.node);
     }
 
+    theDumpsterTruckIsHere() {
+        this.node.remove();
+    }
+
     tick() {
         this.x += this.direction * this.speed;
         this.node.style.left = this.x + "px";
