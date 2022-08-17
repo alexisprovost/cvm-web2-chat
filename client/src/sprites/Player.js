@@ -1,8 +1,13 @@
+import TiledImage from "@ftheriault/animatedsprite";
+
 class Player {
-	constructor(parent) {
+	constructor(parent, type) {
 		this.parent = parent;
 		this.node = document.createElement("div");
-		this.node.className = "player";
+
+		//this.node.className = "player";
+		this.type = type;
+		this.height = this.node.offsetHeight;
 		this.x = 0;
 		this.y = -150;
 		this.speed = 10;
@@ -17,6 +22,12 @@ class Player {
 		});
 
 		parent.append(this.node);
+
+		if (this.type === "robot") {
+			this.tiledImage = new TiledImage("img/robot/Flying_(32 x 32).png", 2, 1, 100, true, 2.0, this.node);
+		}
+
+		this.tiledImage.changeMinMaxInterval(0, 8);
 	}
 
 	jumpAnimation() {
@@ -27,13 +38,14 @@ class Player {
 			if (this.step < -10) {
 				clearInterval(this.jump);
 			}
-		}
-		, 20);
+		}, 20);
 	}
 
-
 	tick(keys) {
-		if (this.y > -57 && this.x > -30-25 && this.x < 430) {
+
+		console.log(this.height);
+
+		if (this.y > -57 && this.x > -30 - 25 && this.x < 430) {
 			this.onGround = true;
 			this.gravity = 0;
 			this.y = -57;
@@ -43,21 +55,21 @@ class Player {
 
 		//Woosh gravity
 		if (keys[37] || keys[65]) {
-			console.log("left");
+			//console.log("left");
 			this.x -= this.speed;
 		}
 		if (keys[38] || keys[87]) {
-			console.log("jump");
+			//console.log("jump");
 			if (this.onGround) {
-				this.jumpAnimation();			
+				this.jumpAnimation();
 			}
 		}
 		if (keys[39] || keys[68]) {
-			console.log("right");
+			//console.log("right");
 			this.x += this.speed;
 		}
 		if (keys[40] || keys[83]) {
-			console.log("down");
+			//console.log("down");
 			if (!this.onGround) {
 				this.y += this.speed;
 			}
@@ -74,8 +86,7 @@ class Player {
 			this.node.remove();
 		}
 
-		this.node.style.left = this.x + "px";
-		this.node.style.top = this.y + "px";
+		this.tiledImage.tick(this.x, this.y);
 
 		//console.log(this.x, this.y);
 

@@ -22,7 +22,7 @@ window.addEventListener("load", () => {
 
 	const playground = document.getElementById("playground");
 
-	const player = new Player(playground);
+	const player = new Player(playground, "robot");
 
 	players.push(player);
 
@@ -57,7 +57,7 @@ const tick = function () {
 			i--;
 
 			setTimeout(() => {
-				const player = new Player(playground);
+				const player = new Player(playground, "robot");
 
 				players.push(player);
 			}, 1000);
