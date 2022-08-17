@@ -1,21 +1,21 @@
 <template>
-<div>
-    <ConnectedUsers />
-    <div class="input-holder">
-		<div>
-			<textarea @keyup="handleSendMessage" placeholder="Chat" cols="30" rows="10"></textarea>
-		</div>
+	<div>
+		<li v-for="(item, index) in this.connectedUsers" :key="index">
+			{{ item }}
+		</li>
+		<div class="input-holder">
+			<div>
+				<textarea @keyup="handleSendMessage" placeholder="Chat" cols="30" rows="10"></textarea>
+			</div>
 
-		<a href="javascript:void(0)" @click="logout" id="sign-out-btn">Déconnexion</a>
+			<a href="javascript:void(0)" @click="logout" id="sign-out-btn">Déconnexion</a>
+		</div>
 	</div>
-</div>
-	
 </template>
 
 <script>
 import BackgroundLayer from "./sprites/BackgroundLayer";
 import { registerCallbacks, sendMessage, signout, chatMessageLoop } from "./chat-api";
-import ConnectedUsers from "./ConnectedUsers";
 
 export default {
 	name: "App",
@@ -25,7 +25,7 @@ export default {
 	data() {
 		return {
 			bgLayers: [],
-            connectedUsers: [],
+			connectedUsers: [],
 		};
 	},
 	methods: {
@@ -36,12 +36,12 @@ export default {
 			console.log(fromUser, message, isPrivate);
 		},
 		memberListUpdate: function (members) {
-            this.connectedUsers = members;
-            console.log(this.connectedUsers);
+			this.connectedUsers = members;
+			console.log(this.connectedUsers);
 		},
-        logout: function () {
-            signout();
-        }
+		logout: function () {
+			signout();
+		},
 	},
 	mounted() {
 		registerCallbacks(this.newMessage, this.memberListUpdate);

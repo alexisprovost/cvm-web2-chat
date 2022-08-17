@@ -4,5 +4,7 @@ import App from "./App.vue";
 const app = createApp(App);
 
 window.addEventListener("load", () => {
-	app.mount("#vue-container");
+	let root = app.mount("#vue-container");
+
+	root.addMessage(message.value);
 });
