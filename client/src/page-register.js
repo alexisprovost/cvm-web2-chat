@@ -45,6 +45,10 @@ window.addEventListener("load", () => {
 		false
 	);
 
+	document.querySelector("input[name='no']").addEventListener('focus', () => {
+		player.say('01000010 01101001 01100101 01101110 01110110 01100101 01101110 01110101 01100101');
+	});
+
 	tick();
 });
 

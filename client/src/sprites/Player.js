@@ -63,7 +63,7 @@ class Player {
 		this.node.append(bubble);
 		setTimeout(() => {
 			bubble.remove();
-		}, 200000);
+		}, 10000);
 	}
 
 	shoot() {
