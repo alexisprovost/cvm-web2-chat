@@ -12,7 +12,7 @@ class ChatPlayer {
 		this.type = type;
 		this.username = username;
 		this.height = 40;
-		this.x = 0;
+		this.x = Math.random() * (screen.width - this.height);
 		this.y = -150;
 		this.speed = 10;
 		this.gravity = 1;
@@ -31,12 +31,24 @@ class ChatPlayer {
 
 		if (this.type === "robot") {
 			this.tiledImage = new TiledImage("img/robot/Flying_(32 x 32).png", 2, 1, 100, true, 2.0, this.node);
-            this.tiledImage.changeMinMaxInterval(0, 8);
+			this.tiledImage.changeMinMaxInterval(0, 8);
 		}
+
+		setTimeout(() => {
+			this.showUsernameTag();
+		}, 1000);
 	}
 
 	getUsername() {
 		return this.username;
+	}
+
+	getType() {
+		return this.type;
+	}
+
+	getParent() {
+		return this.parent;
 	}
 
 	clicked() {
@@ -55,6 +67,14 @@ class ChatPlayer {
 				clearInterval(this.jump);
 			}
 		}, 20);
+	}
+
+	showUsernameTag() {
+		this.usernameTag = document.createElement("div");
+		this.usernameTag.className = "username-tag";
+        this.usernameTag.style = "top: -20px;left: 15px;position: absolute;font-weight: 800;";
+		this.usernameTag.innerHTML = this.username;
+		this.node.append(this.usernameTag);
 	}
 
 	say(message) {
@@ -92,7 +112,6 @@ class ChatPlayer {
 		if (keys[37] || keys[65]) {
 			//console.log("left");
 			this.facingRight = false;
-			this.node.style.transform = "scaleX(-1)";
 			this.x -= this.speed;
 		}
 		if (keys[38] || keys[87]) {
@@ -104,7 +123,6 @@ class ChatPlayer {
 		if (keys[39] || keys[68]) {
 			//console.log("right");
 			this.facingRight = true;
-			this.node.style.transform = "scaleX(1)";
 			this.x += this.speed;
 		}
 		if (keys[40] || keys[83]) {
@@ -122,6 +140,14 @@ class ChatPlayer {
 				}, 500);
 			}
 		}
+
+        if(this.x < 0 - this.height) {
+            this.x = screen.width + this.height;
+        }
+
+        if(this.x > screen.width + this.height) {
+            this.x = 0 - this.height;
+        }
 
 		this.bullets.forEach(bullet => {
 			if (!bullet.tick()) {

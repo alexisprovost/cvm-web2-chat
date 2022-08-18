@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<div class="connected-users-holder">
-			<h3>Utilisateurs connectés</h3>
+			<h3>Utilisateurs connectés ({{ this.connectedUsers.length }})</h3>
 			<li v-for="(item, index) in this.connectedUsers" :key="index">
 				{{ item }}
 			</li>
 		</div>
-		<div class="chat-holder" id="chat-holder" @click="scrollToElement">
+		<div class="chat-holder" id="chat-holder">
 			<h3>Chat</h3>
 			<ul>
 				<li v-for="(item, index) in this.chat" :key="index">
@@ -65,26 +65,18 @@ export default {
 				});
 
 				if (msgParts[0] == "/help") {
-					this.chat.push({
+					this.chat.unshift({
 						fromUser: "Console",
 						message: "Bonjour voici les commandes: \n @username pour tag quelqu'un",
 						tagged: false,
 					});
 				} else {
-					this.chat.push({
+					this.chat.unshift({
 						fromUser: fromUser,
 						message: message,
 						tagged: tagged,
 					});
 				}
-			}
-		},
-		/* src https://thewebdev.info/2022/03/12/how-to-scroll-to-bottom-of-the-div-with-vue-js/*/
-		scrollToElement: function () {
-			const el = this.$refs["chat-holder"];
-			console.log(el);
-			if (el) {
-				el.scrollIntoView({ behavior: "smooth" });
 			}
 		},
 		memberListUpdate: function (members) {

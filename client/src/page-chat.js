@@ -12,7 +12,7 @@ window.addEventListener("load", () => {
 	chatPlayers = [];
 	keys = [];
 
-	app.mount("#vue-container");
+	let root = app.mount("#vue-container");
 
 	const playground = document.querySelector(".input-holder");
 
@@ -50,7 +50,7 @@ const tick = () => {
 
 		if (!element.tick(keys)) {
 			setTimeout(() => {
-				const player = new ChatPlayer(playground, element.getUsername(), "robot");
+				const player = new ChatPlayer(element.getParent(), element.getUsername(), element.getType());
 
 				chatPlayers.push(player);
 
