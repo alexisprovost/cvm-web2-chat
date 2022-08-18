@@ -20,6 +20,9 @@ class ChatPlayer {
 		this.alive = true;
 		this.onGround = false;
 		this.facingRight = true;
+		this.bulletCoolDown = 250;
+
+		this.controllable = false;
 
 		this.coolDown = false;
 
@@ -55,7 +58,12 @@ class ChatPlayer {
 		this.easterEgg++;
 		if (this.easterEgg === 10) {
 			this.say("I'm a robot!");
+			this.bulletCoolDown = 5;
 		}
+	}
+
+	disableControls() {
+		this.controllable = false;
 	}
 
 	jumpAnimation() {
@@ -72,7 +80,8 @@ class ChatPlayer {
 	showUsernameTag() {
 		this.usernameTag = document.createElement("div");
 		this.usernameTag.className = "username-tag";
-        this.usernameTag.style = "top: -20px;left: 15px;position: absolute;font-weight: 800;";
+		this.usernameTag.style =
+			"top: -20px;left: -117px;position: absolute;font-weight: 800;width: 300px;text-align: center;text-shadow: rgb(0 0 0) 0px 0px 5px;color: white;}";
 		this.usernameTag.innerHTML = this.username;
 		this.node.append(this.usernameTag);
 	}
@@ -92,9 +101,9 @@ class ChatPlayer {
 	shoot() {
 		let bullet;
 		if (this.facingRight) {
-			bullet = new Bullet(this.parent, this.x, this.y, 1);
+			bullet = new Bullet(this.parent, this.x, this.y, 2.5);
 		} else {
-			bullet = new Bullet(this.parent, this.x, this.y, -1);
+			bullet = new Bullet(this.parent, this.x, this.y, -2.5);
 		}
 		this.bullets.push(bullet);
 	}
@@ -109,45 +118,45 @@ class ChatPlayer {
 		}
 
 		//Woosh gravity
-		if (keys[37] || keys[65]) {
+		if (keys[37] || keys[65] && this.controllable) {
 			//console.log("left");
 			this.facingRight = false;
 			this.x -= this.speed;
 		}
-		if (keys[38] || keys[87]) {
+		if (keys[38] || keys[87] && this.controllable) {
 			//console.log("jump");
 			if (this.onGround) {
 				this.jumpAnimation();
 			}
 		}
-		if (keys[39] || keys[68]) {
+		if (keys[39] || keys[68] && this.controllable) {
 			//console.log("right");
 			this.facingRight = true;
 			this.x += this.speed;
 		}
-		if (keys[40] || keys[83]) {
+		if (keys[40] || keys[83] && this.controllable) {
 			//console.log("down");
 			if (!this.onGround) {
 				this.y += this.speed;
 			}
 		}
-		if (keys[32]) {
+		if (keys[32] && this.controllable) {
 			if (this.coolDown == false) {
 				this.coolDown = true;
 				this.shoot();
 				setTimeout(() => {
 					this.coolDown = false;
-				}, 500);
+				}, this.bulletCoolDown);
 			}
 		}
 
-        if(this.x < 0 - this.height) {
-            this.x = screen.width + this.height;
-        }
+		if (this.x < 0 - this.height) {
+			this.x = screen.width + this.height;
+		}
 
-        if(this.x > screen.width + this.height) {
-            this.x = 0 - this.height;
-        }
+		if (this.x > screen.width + this.height) {
+			this.x = 0 - this.height;
+		}
 
 		this.bullets.forEach(bullet => {
 			if (!bullet.tick()) {

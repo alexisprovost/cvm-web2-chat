@@ -5,18 +5,24 @@ import ChatPlayer from "./sprites/ChatPlayer.js";
 
 const app = createApp(App);
 
-let bgLayers, chatPlayers, keys;
+let bgLayers, chatPlayers, keys, root;
 
 window.addEventListener("load", () => {
 	bgLayers = [];
 	chatPlayers = [];
 	keys = [];
 
-	let root = app.mount("#vue-container");
+	root = app.mount("#vue-container");
 
-	const playground = document.querySelector(".input-holder");
+	setTimeout(() => {
+		root.getConnectedUsers().forEach(e => {
+			let player = new ChatPlayer(document.querySelector(".input-holder"), e, "robot");
+			chatPlayers.push(player);
+			player.disableControls();
+		});
+	}, 4000);
 
-	const player = new ChatPlayer(playground, localStorage["username"], "robot");
+	const player = new ChatPlayer(document.querySelector(".input-holder"), localStorage["username"], "robot");
 
 	chatPlayers.push(player);
 

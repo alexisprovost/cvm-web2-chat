@@ -43,6 +43,9 @@ export default {
 		};
 	},
 	methods: {
+		getConnectedUsers: function () {
+			return this.connectedUsers;
+		},
 		handleSendMessage: evt => {
 			console.log(evt.target);
 			sendMessage(evt, evt.target);
@@ -67,7 +70,7 @@ export default {
 				if (msgParts[0] == "/help") {
 					this.chat.unshift({
 						fromUser: "Console",
-						message: "Bonjour voici les commandes: \n @username pour tag quelqu'un",
+						message: "Bonjour voici les commandes: @username (pour tag quelqu'un), spacebar (envoyer un missile)",
 						tagged: false,
 					});
 				} else {
