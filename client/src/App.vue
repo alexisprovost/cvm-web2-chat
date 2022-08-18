@@ -11,9 +11,9 @@
 			<ul>
 				<li v-for="(item, index) in this.chat" :key="index">
 					<b>{{ item.fromUser }}</b> :
-					<span v-if="item.tagged"
-						><span class="tagged">{{ item.message }}</span></span
-					>
+					<span v-if="item.tagged">
+						<span class="tagged">{{ item.message }}</span>
+					</span>
 					<span v-else>{{ item.message }}</span>
 				</li>
 			</ul>
@@ -64,11 +64,19 @@ export default {
 					}
 				});
 
-				this.chat.push({
-					fromUser: fromUser,
-					message: message,
-					tagged: tagged,
-				});
+				if (msgParts[0] == "/help") {
+					this.chat.push({
+						fromUser: "Console",
+						message: "Bonjour voici les commandes: \n @username pour tag quelqu'un",
+						tagged: false,
+					});
+				} else {
+					this.chat.push({
+						fromUser: fromUser,
+						message: message,
+						tagged: tagged,
+					});
+				}
 			}
 		},
 		/* src https://thewebdev.info/2022/03/12/how-to-scroll-to-bottom-of-the-div-with-vue-js/*/
@@ -183,7 +191,7 @@ export default {
 .tagged {
 	background-color: gold;
 	padding: 0.2rem;
-    border-radius: 0.5rem;
+	border-radius: 0.5rem;
 }
 
 @media only screen and (max-width: 800px) {
