@@ -6,6 +6,12 @@
 				{{ item }}
 			</li>
 		</div>
+		<div class="chat-holder">
+			<h3>Chat</h3>
+			<ul>
+				<li v-for="(item, index) in this.chat" :key="index">{{ item.fromUser }} : {{ item.message }}</li>
+			</ul>
+		</div>
 		<div class="input-holder">
 			<div>
 				<textarea @keyup="handleSendMessage" placeholder="Chat" cols="30" rows="10"></textarea>
@@ -27,6 +33,7 @@ export default {
 	data() {
 		return {
 			connectedUsers: ["Chargement..."],
+			chat: [],
 		};
 	},
 	methods: {
@@ -38,6 +45,10 @@ export default {
 				console.log("Private message from " + fromUser + ": " + message);
 			} else {
 				console.log("Message from " + fromUser + ": " + message);
+				this.chat.push({
+					fromUser: fromUser,
+					message: message,
+				});
 			}
 		},
 		memberListUpdate: function (members) {
@@ -101,14 +112,32 @@ export default {
 .connected-users-holder {
 	list-style: none;
 	margin: 1rem;
-	padding: 1rem;
+	padding: 0.5rem;
 	border-radius: 1rem;
 	width: fit-content;
 	background-color: rgb(255 255 255 / 60%);
+	position: absolute;
+	font-size: 14px;
 }
 
 .connected-users-holder > * {
-	margin: 1rem;
+	margin: 0.5rem;
 	font-weight: 800;
+}
+
+.chat-holder {
+	background-color: rgb(255 255 255 / 60%);
+	margin: 1rem;
+	padding: 1rem;
+	border-radius: 1rem;
+	max-width: 500px;
+	min-width: 500px;
+	max-height: 360px;
+	overflow-y: scroll;
+	float: right;
+}
+
+.chat-holder ul {
+	list-style: none;
 }
 </style>
