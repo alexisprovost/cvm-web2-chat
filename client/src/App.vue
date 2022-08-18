@@ -6,10 +6,16 @@
 				{{ item }}
 			</li>
 		</div>
-		<div class="chat-holder">
+		<div class="chat-holder" id="chat-holder" @click="scrollToElement">
 			<h3>Chat</h3>
 			<ul>
-				<li v-for="(item, index) in this.chat" :key="index">{{ item.fromUser }} : {{ item.message }}</li>
+				<li v-for="(item, index) in this.chat" :key="index">
+					<b>{{ item.fromUser }}</b> :
+					<span v-if="item.tagged"
+						><span class="tagged">{{ item.message }}</span></span
+					>
+					<span v-else>{{ item.message }}</span>
+				</li>
 			</ul>
 		</div>
 		<div class="input-holder">
@@ -38,17 +44,39 @@ export default {
 	},
 	methods: {
 		handleSendMessage: evt => {
+			console.log(evt.target);
 			sendMessage(evt, evt.target);
 		},
 		newMessage: function (fromUser, message, isPrivate) {
 			if (isPrivate) {
 				console.log("Private message from " + fromUser + ": " + message);
 			} else {
-				console.log("Message from " + fromUser + ": " + message);
+				let msgParts = message.split(" ");
+				let tagged = false;
+
+				msgParts.forEach(e => {
+					if (e.startsWith("@")) {
+						let taggedUser = e.substring(1);
+
+						if (taggedUser == localStorage["username"]) {
+							tagged = true;
+						}
+					}
+				});
+
 				this.chat.push({
 					fromUser: fromUser,
 					message: message,
+					tagged: tagged,
 				});
+			}
+		},
+		/* src https://thewebdev.info/2022/03/12/how-to-scroll-to-bottom-of-the-div-with-vue-js/*/
+		scrollToElement: function () {
+			const el = this.$refs["chat-holder"];
+			console.log(el);
+			if (el) {
+				el.scrollIntoView({ behavior: "smooth" });
 			}
 		},
 		memberListUpdate: function (members) {
@@ -134,10 +162,40 @@ export default {
 	min-width: 500px;
 	max-height: 360px;
 	overflow-y: scroll;
+	overflow-x: hidden;
 	float: right;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.chat-holder li {
+	margin: 0.5rem 0;
+}
+
+.chat-holder::-webkit-scrollbar {
+	display: none;
 }
 
 .chat-holder ul {
 	list-style: none;
+}
+
+.tagged {
+	background-color: gold;
+	padding: 0.2rem;
+    border-radius: 0.5rem;
+}
+
+@media only screen and (max-width: 800px) {
+	.connected-users-holder {
+		position: relative;
+		width: calc(100% - 3rem);
+	}
+
+	.chat-holder {
+		float: none;
+		max-width: 100%;
+		min-width: auto;
+	}
 }
 </style>
