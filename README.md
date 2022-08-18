@@ -1,5 +1,15 @@
 # Chat client
 
+![game](https://cdn.discordapp.com/attachments/525071870844731403/1009858858384097400/game.png)
+
+# Fonctionnalités
+
+- /help pour la liste des commandes
+- utiliser wasd ou up, down, left, right pour déplacer le robot
+- barre d'espace pour tirer
+- nuages animés
+- easter egg caché
+
 ## Pré-requis
 
 - Avoir nodejs d'installé sur votre machine. Pour savoir si vous l'avez installé, exécutez dans un terminal:
