@@ -4,7 +4,8 @@
 	"description": "Web chat",
 	"main": "server.js",
 	"scripts": {
-		"webpack": "webpack --watch"
+		"webpack": "webpack --watch",
+		"serve": "webpack"
 	},
 	"author": "",
 	"license": "ISC",
