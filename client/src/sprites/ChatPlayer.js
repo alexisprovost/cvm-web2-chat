@@ -22,7 +22,7 @@ class ChatPlayer {
 		this.facingRight = true;
 		this.bulletCoolDown = 250;
 
-		this.controllable = false;
+		this.controllable = true;
 
 		this.coolDown = false;
 
@@ -118,23 +118,23 @@ class ChatPlayer {
 		}
 
 		//Woosh gravity
-		if (keys[37] || keys[65] && this.controllable) {
+		if ((keys[37] || keys[65]) && this.controllable) {
 			//console.log("left");
 			this.facingRight = false;
 			this.x -= this.speed;
 		}
-		if (keys[38] || keys[87] && this.controllable) {
+		if ((keys[38] || keys[87]) && this.controllable) {
 			//console.log("jump");
 			if (this.onGround) {
 				this.jumpAnimation();
 			}
 		}
-		if (keys[39] || keys[68] && this.controllable) {
+		if ((keys[39] || keys[68]) && this.controllable) {
 			//console.log("right");
 			this.facingRight = true;
 			this.x += this.speed;
 		}
-		if (keys[40] || keys[83] && this.controllable) {
+		if ((keys[40] || keys[83]) && this.controllable) {
 			//console.log("down");
 			if (!this.onGround) {
 				this.y += this.speed;

@@ -14,14 +14,6 @@ window.addEventListener("load", () => {
 
 	root = app.mount("#vue-container");
 
-	setTimeout(() => {
-		root.getConnectedUsers().forEach(e => {
-			let player = new ChatPlayer(document.querySelector(".input-holder"), e, "robot");
-			chatPlayers.push(player);
-			player.disableControls();
-		});
-	}, 4000);
-
 	const player = new ChatPlayer(document.querySelector(".input-holder"), localStorage["username"], "robot");
 
 	chatPlayers.push(player);
@@ -51,6 +43,18 @@ window.addEventListener("load", () => {
 });
 
 const tick = () => {
+	// update players
+	setTimeout(() => {
+		root.getConnectedUsers().forEach(e => {
+			let existingPlayer = chatPlayers.find(p => p.getUsername() === e);
+			if (!existingPlayer) {
+				const player = new ChatPlayer(document.querySelector(".input-holder"), e, "robot");
+				chatPlayers.push(player);
+				player.disableControls();
+			}
+		});
+	}, 4000);
+
 	for (let i = 0; i < chatPlayers.length; i++) {
 		const element = chatPlayers[i];
 
