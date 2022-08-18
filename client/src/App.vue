@@ -20,7 +20,7 @@
 		</div>
 		<div class="input-holder">
 			<div>
-				<textarea @keyup="handleSendMessage" placeholder="Chat" cols="30" rows="10"></textarea>
+				<textarea @keyup="handleSendMessage" placeholder="Entrer votre message. /help pour l'aide" cols="30" rows="10"></textarea>
 			</div>
 			<div class="link-holder">
 				<a href="javascript:void(0)" @click="logout" id="sign-out-btn">Déconnexion</a>
